@@ -1,0 +1,97 @@
+name: CI
+
+# 이 워크플로는 외부 LLM API 키를 요구하지 않으며 원격 LLM을 호출하지 않는다.
+# 자연어 구조화는 결정론적 모의 어댑터로만 검증한다.
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  backend:
+    name: 백엔드 (ruff + pytest)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Python 3.12 설치
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: backend/requirements-dev.txt
+
+      - name: 의존성 설치
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements-dev.txt
+
+      - name: Ruff 검사
+        run: python -m ruff check app tests
+
+      - name: Ruff 포맷 검사
+        run: python -m ruff format --check app tests
+
+      - name: pytest
+        run: python -m pytest tests -q
+
+      - name: 모의 어댑터 구조화 평가 (실제 API 호출 없음)
+        working-directory: .
+        run: python evaluation/evaluate_mock.py
+
+  frontend:
+    name: 프런트엔드 (lint + typecheck + test + build)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Node 20 설치
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+
+      - name: 의존성 설치
+        run: npm ci
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: 타입 검사
+        run: npm run typecheck
+
+      - name: 단위 테스트
+        run: npm test
+
+      - name: 프로덕션 빌드
+        run: npm run build
+
+  repo-hygiene:
+    name: 저장소 위생 (생성 파일·비밀정보 추적 검사)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: 생성 파일이 추적되지 않는지 확인
+        run: |
+          set -e
+          for pattern in "node_modules/" "\.next/" "__pycache__" "\.pyc$" "tsbuildinfo" "^\.env$" "\.db$"; do
+            if git ls-files | grep -Eq "$pattern"; then
+              echo "추적되면 안 되는 파일이 있습니다: $pattern"
+              git ls-files | grep -E "$pattern" | head -5
+              exit 1
+            fi
+          done
+          echo "추적 파일 확인 완료: $(git ls-files | wc -l) files"

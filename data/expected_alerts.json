@@ -1,0 +1,202 @@
+{
+  "dataset": "data/work_items.csv",
+  "note": "합성 데이터에 대한 기대 경보 목록이다. 규칙 엔진 결과와 rule_id 및 정렬된 work_item_ids 기준으로 비교한다.",
+  "expected_alerts": [
+    {
+      "scenario_id": "S01_HOT_PAINT_SAME_ZONE",
+      "description": "동일 구역에서 화기작업과 도장작업이 시간 중첩",
+      "rule_id": "R001",
+      "severity": "HIGH",
+      "work_item_ids": ["W001", "W002"],
+      "evidence": {
+        "spatial_relation": "SAME",
+        "overlap_start": "2026-03-16T11:00:00+09:00",
+        "overlap_end": "2026-03-16T12:00:00+09:00",
+        "overlap_minutes": 60
+      }
+    },
+    {
+      "scenario_id": "S02_HOT_PAINT_ADJACENT_ZONE",
+      "description": "인접 구역(단방향 선언)에서 화기작업과 도장작업이 시간 중첩",
+      "rule_id": "R001",
+      "severity": "HIGH",
+      "work_item_ids": ["W003", "W004"],
+      "evidence": {
+        "spatial_relation": "ADJACENT",
+        "overlap_start": "2026-03-16T15:00:00+09:00",
+        "overlap_end": "2026-03-16T16:00:00+09:00",
+        "overlap_minutes": 60
+      }
+    },
+    {
+      "scenario_id": "S03_HOT_SOLVENT_SAME_ZONE",
+      "description": "동일 구역에서 화기작업과 유기용제 작업이 시간 중첩",
+      "rule_id": "R002",
+      "severity": "HIGH",
+      "work_item_ids": ["W005", "W006"],
+      "evidence": {
+        "spatial_relation": "SAME",
+        "overlap_start": "2026-03-16T10:00:00+09:00",
+        "overlap_end": "2026-03-16T11:00:00+09:00",
+        "overlap_minutes": 60
+      }
+    },
+    {
+      "scenario_id": "S04_HOT_FLAMMABLE_ADJACENT_ZONE",
+      "description": "인접 구역에서 화기작업과 가연성 물질 사용 작업이 시간 중첩",
+      "rule_id": "R003",
+      "severity": "HIGH",
+      "work_item_ids": ["W007", "W008"],
+      "evidence": {
+        "spatial_relation": "ADJACENT",
+        "overlap_start": "2026-03-16T10:00:00+09:00",
+        "overlap_end": "2026-03-16T12:00:00+09:00",
+        "overlap_minutes": 120
+      }
+    },
+    {
+      "scenario_id": "S05_R001_SUPPRESSES_R003",
+      "description": "도장작업이 가연성 물질도 사용하지만 R001만 생성되고 R003은 억제됨",
+      "rule_id": "R001",
+      "severity": "HIGH",
+      "work_item_ids": ["W015", "W016"],
+      "evidence": {
+        "spatial_relation": "SAME",
+        "overlap_start": "2026-03-17T10:00:00+09:00",
+        "overlap_end": "2026-03-17T12:00:00+09:00",
+        "overlap_minutes": 120
+      }
+    },
+    {
+      "scenario_id": "S06_R002_SUPPRESSES_R003",
+      "description": "유기용제 작업이 가연성 물질도 사용하지만 R002만 생성되고 R003은 억제됨",
+      "rule_id": "R002",
+      "severity": "HIGH",
+      "work_item_ids": ["W017", "W018"],
+      "evidence": {
+        "spatial_relation": "SAME",
+        "overlap_start": "2026-03-17T09:00:00+09:00",
+        "overlap_end": "2026-03-17T10:00:00+09:00",
+        "overlap_minutes": 60
+      }
+    },
+    {
+      "scenario_id": "S07_HOT_FLAMMABLE_SAME_ZONE",
+      "description": "동일 구역에서 화기작업과 가연성 물질 반입 작업이 시간 중첩",
+      "rule_id": "R003",
+      "severity": "HIGH",
+      "work_item_ids": ["W019", "W020"],
+      "evidence": {
+        "spatial_relation": "SAME",
+        "overlap_start": "2026-03-17T14:00:00+09:00",
+        "overlap_end": "2026-03-17T15:00:00+09:00",
+        "overlap_minutes": 60
+      }
+    },
+    {
+      "scenario_id": "S08_CONFINED_GAS_NULL",
+      "description": "밀폐공간 가스측정 값 미입력",
+      "rule_id": "R101",
+      "severity": "HIGH",
+      "work_item_ids": ["W026"],
+      "evidence": { "field": "gas_measurement_completed", "value": null }
+    },
+    {
+      "scenario_id": "S09_CONFINED_GAS_FALSE",
+      "description": "밀폐공간 가스측정 미실시 입력",
+      "rule_id": "R101",
+      "severity": "HIGH",
+      "work_item_ids": ["W027"],
+      "evidence": { "field": "gas_measurement_completed", "value": false }
+    },
+    {
+      "scenario_id": "S10_CONFINED_VENT_NULL",
+      "description": "밀폐공간 환기 값 미입력",
+      "rule_id": "R102",
+      "severity": "HIGH",
+      "work_item_ids": ["W028"],
+      "evidence": { "field": "ventilation_confirmed", "value": null }
+    },
+    {
+      "scenario_id": "S11_CONFINED_VENT_FALSE",
+      "description": "밀폐공간 환기 미확인 입력",
+      "rule_id": "R102",
+      "severity": "HIGH",
+      "work_item_ids": ["W029"],
+      "evidence": { "field": "ventilation_confirmed", "value": false }
+    },
+    {
+      "scenario_id": "S12_CONFINED_WATCHER_NULL",
+      "description": "밀폐공간 감시인 값 미입력",
+      "rule_id": "R103",
+      "severity": "HIGH",
+      "work_item_ids": ["W030"],
+      "evidence": { "field": "watcher_assigned", "value": null }
+    },
+    {
+      "scenario_id": "S13_CONFINED_WATCHER_FALSE",
+      "description": "밀폐공간 감시인 미배치 입력",
+      "rule_id": "R103",
+      "severity": "HIGH",
+      "work_item_ids": ["W031"],
+      "evidence": { "field": "watcher_assigned", "value": false }
+    },
+    {
+      "scenario_id": "S14_CONFINED_ALL_NULL_GAS",
+      "description": "밀폐공간 안전조치 전체 미입력 - 가스측정",
+      "rule_id": "R101",
+      "severity": "HIGH",
+      "work_item_ids": ["W032"],
+      "evidence": { "field": "gas_measurement_completed", "value": null }
+    },
+    {
+      "scenario_id": "S15_CONFINED_ALL_NULL_VENT",
+      "description": "밀폐공간 안전조치 전체 미입력 - 환기",
+      "rule_id": "R102",
+      "severity": "HIGH",
+      "work_item_ids": ["W032"],
+      "evidence": { "field": "ventilation_confirmed", "value": null }
+    },
+    {
+      "scenario_id": "S16_CONFINED_ALL_NULL_WATCHER",
+      "description": "밀폐공간 안전조치 전체 미입력 - 감시인",
+      "rule_id": "R103",
+      "severity": "HIGH",
+      "work_item_ids": ["W032"],
+      "evidence": { "field": "watcher_assigned", "value": null }
+    },
+    {
+      "scenario_id": "S17_CONFINED_ALL_FALSE_GAS",
+      "description": "밀폐공간 안전조치 전체 미실시 입력 - 가스측정",
+      "rule_id": "R101",
+      "severity": "HIGH",
+      "work_item_ids": ["W033"],
+      "evidence": { "field": "gas_measurement_completed", "value": false }
+    },
+    {
+      "scenario_id": "S18_CONFINED_ALL_FALSE_VENT",
+      "description": "밀폐공간 안전조치 전체 미실시 입력 - 환기",
+      "rule_id": "R102",
+      "severity": "HIGH",
+      "work_item_ids": ["W033"],
+      "evidence": { "field": "ventilation_confirmed", "value": false }
+    },
+    {
+      "scenario_id": "S19_CONFINED_ALL_FALSE_WATCHER",
+      "description": "밀폐공간 안전조치 전체 미실시 입력 - 감시인",
+      "rule_id": "R103",
+      "severity": "HIGH",
+      "work_item_ids": ["W033"],
+      "evidence": { "field": "watcher_assigned", "value": false }
+    }
+  ],
+  "negative_scenarios": [
+    { "scenario_id": "N01_SAME_ZONE_NO_TIME_OVERLAP", "work_item_ids": ["W009", "W010"], "reason": "동일 구역이지만 시간이 겹치지 않음" },
+    { "scenario_id": "N02_BOUNDARY_TOUCH", "work_item_ids": ["W011", "W012"], "reason": "경계시각이 맞닿지만 [start, end) 기준으로 중첩 아님" },
+    { "scenario_id": "N03_TIME_OVERLAP_UNRELATED_ZONE", "work_item_ids": ["W013", "W014"], "reason": "시간은 겹치지만 구역 관계가 UNRELATED" },
+    { "scenario_id": "N04_ADJACENT_BOUNDARY_TOUCH", "work_item_ids": ["W003", "W038"], "reason": "인접 구역이지만 경계시각이 맞닿아 중첩 아님" },
+    { "scenario_id": "N05_FLAMMABLE_NULL", "work_item_ids": ["W021", "W022"], "reason": "가연성 물질 사용 여부가 null이므로 R003 미성립" },
+    { "scenario_id": "N06_FLAMMABLE_FALSE", "work_item_ids": ["W023", "W024"], "reason": "가연성 물질 사용 여부가 false이므로 R003 미성립" },
+    { "scenario_id": "N07_CONFINED_ALL_TRUE", "work_item_ids": ["W025"], "reason": "밀폐공간 안전조치 정보가 모두 true" }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "zones": [
+    { "id": "A_BLOCK_1", "name": "A블록 1구역", "adjacent_zone_ids": ["A_BLOCK_2"] },
+    { "id": "A_BLOCK_2", "name": "A블록 2구역", "adjacent_zone_ids": ["ASSEMBLY_1"] },
+    { "id": "ASSEMBLY_1", "name": "조립장 1", "adjacent_zone_ids": ["ASSEMBLY_2"] },
+    { "id": "ASSEMBLY_2", "name": "조립장 2", "adjacent_zone_ids": [] },
+    { "id": "PAINT_SHOP", "name": "도장공장", "adjacent_zone_ids": ["ASSEMBLY_2"] },
+    { "id": "WELD_SHOP_1", "name": "용접공장 1", "adjacent_zone_ids": [] },
+    { "id": "TANK_A", "name": "탱크 A", "adjacent_zone_ids": ["TANK_B"] },
+    { "id": "TANK_B", "name": "탱크 B", "adjacent_zone_ids": [] },
+    { "id": "DOCK_1", "name": "1도크", "adjacent_zone_ids": ["DOCK_2"] },
+    { "id": "DOCK_2", "name": "2도크", "adjacent_zone_ids": [] },
+    { "id": "OUTFIT_1", "name": "의장 1구역", "adjacent_zone_ids": [] },
+    { "id": "OUTFIT_2", "name": "의장 2구역", "adjacent_zone_ids": [] }
+  ]
+}

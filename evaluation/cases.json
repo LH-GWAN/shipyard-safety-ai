@@ -1,0 +1,619 @@
+{
+  "version": "1.0.0",
+  "note": "합성 문장만 사용한다. 실제 작업허가서, 회사명, 선박명, 협력업체명, 작업자 개인정보를 포함하지 않는다. 기대값은 어댑터 계약(입력에 명시된 사실만 추출, 없으면 null)을 기준으로 작성했다.",
+  "zones_source": "data/zones.json",
+  "cases": [
+    {
+      "id": "C01",
+      "category": "HOT_WORK_NORMAL",
+      "text": "2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 A_BLOCK_1에서 보강재 용접 작업을 실시한다.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_1",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "구역 ID와 표준시간대 포함 시각이 모두 명시된 기본 문장"
+    },
+    {
+      "id": "C02",
+      "category": "HOT_WORK_NORMAL",
+      "text": "용접공장 1에서 2026-03-17T08:00:00+09:00부터 2026-03-17T11:00:00+09:00까지 배관 스풀 용접.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "WELD_SHOP_1",
+        "start_at": "2026-03-17T08:00:00+09:00",
+        "end_at": "2026-03-17T11:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "구역명(한글)으로 지정"
+    },
+    {
+      "id": "C03",
+      "category": "HOT_WORK_NORMAL",
+      "text": "ASSEMBLY_2에서 2026-03-16T13:00:00+09:00 ~ 2026-03-16T16:00:00+09:00 부재 절단 작업.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "ASSEMBLY_2",
+        "start_at": "2026-03-16T13:00:00+09:00",
+        "end_at": "2026-03-16T16:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "절단 키워드"
+    },
+    {
+      "id": "C04",
+      "category": "HOT_WORK_NORMAL",
+      "text": "OUTFIT_2 구역 화기작업 예정, 2026-03-18T09:00:00+09:00 시작 2026-03-18T12:00:00+09:00 종료.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "OUTFIT_2",
+        "start_at": "2026-03-18T09:00:00+09:00",
+        "end_at": "2026-03-18T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "화기 키워드"
+    },
+    {
+      "id": "C05",
+      "category": "PAINTING",
+      "text": "도장공장에서 2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 외판 하도 도장을 진행한다.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": "PAINT_SHOP",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "도장 키워드 + 구역명"
+    },
+    {
+      "id": "C06",
+      "category": "PAINTING",
+      "text": "A_BLOCK_1 2026-03-16T11:00:00+09:00-2026-03-16T14:00:00+09:00 스프레이 도장 작업.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": "A_BLOCK_1",
+        "start_at": "2026-03-16T11:00:00+09:00",
+        "end_at": "2026-03-16T14:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "구분자 없이 붙은 시각 표기"
+    },
+    {
+      "id": "C07",
+      "category": "SOLVENT_WORK",
+      "text": "WELD_SHOP_1에서 2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 유기용제로 표면 세척을 한다.",
+      "expected": {
+        "work_type": "SOLVENT_WORK",
+        "zone_id": "WELD_SHOP_1",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "유기용제 키워드"
+    },
+    {
+      "id": "C08",
+      "category": "SOLVENT_WORK",
+      "text": "OUTFIT_1에서 시너를 사용한 세척 작업, 2026-03-16T13:00:00+09:00부터 2026-03-16T15:00:00+09:00까지.",
+      "expected": {
+        "work_type": "SOLVENT_WORK",
+        "zone_id": "OUTFIT_1",
+        "start_at": "2026-03-16T13:00:00+09:00",
+        "end_at": "2026-03-16T15:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "시너 키워드"
+    },
+    {
+      "id": "C09",
+      "category": "CONFINED_SPACE",
+      "text": "TANK_A 밀폐공간 내부 청소, 2026-03-18T08:00:00+09:00 ~ 2026-03-18T12:00:00+09:00.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "TANK_A",
+        "start_at": "2026-03-18T08:00:00+09:00",
+        "end_at": "2026-03-18T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "밀폐공간 키워드"
+    },
+    {
+      "id": "C10",
+      "category": "CONFINED_SPACE",
+      "text": "탱크 B에서 탱크 내부 점검 작업을 2026-03-18T09:00:00+09:00부터 2026-03-18T13:00:00+09:00까지 실시.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "TANK_B",
+        "start_at": "2026-03-18T09:00:00+09:00",
+        "end_at": "2026-03-18T13:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "탱크 내부 키워드 + 구역명"
+    },
+    {
+      "id": "C11",
+      "category": "NO_TIME",
+      "text": "A_BLOCK_2에서 보강재 용접 작업을 진행할 예정이다.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_2",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "시각 표현이 전혀 없음 → start/end는 null이어야 한다"
+    },
+    {
+      "id": "C12",
+      "category": "NO_TIME",
+      "text": "도장공장 스프레이 도장 작업 계획.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": "PAINT_SHOP",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "시각 없음"
+    },
+    {
+      "id": "C13",
+      "category": "NO_ZONE",
+      "text": "2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 배관 용접 작업을 한다.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": null,
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "구역 표현 없음 → zone_id null"
+    },
+    {
+      "id": "C14",
+      "category": "NO_ZONE",
+      "text": "2026-03-18T10:00:00+09:00부터 2026-03-18T14:00:00+09:00까지 밀폐공간 내부 배관 점검.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": null,
+        "start_at": "2026-03-18T10:00:00+09:00",
+        "end_at": "2026-03-18T14:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "구역 없음"
+    },
+    {
+      "id": "C15",
+      "category": "AMBIGUOUS_DATE",
+      "text": "내일 오전 9시부터 낮 12시까지 A_BLOCK_1에서 용접 작업.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_1",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "상대 날짜는 추정하지 않고 null이어야 한다"
+    },
+    {
+      "id": "C16",
+      "category": "AMBIGUOUS_DATE",
+      "text": "다음 주 화요일 오후에 도장공장에서 도장 작업 예정.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": "PAINT_SHOP",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "상대 날짜 추정 금지"
+    },
+    {
+      "id": "C17",
+      "category": "AMBIGUOUS_DATE",
+      "text": "이번 주중 적당한 시간에 WELD_SHOP_1 용접 작업 배정 예정.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "WELD_SHOP_1",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "모호한 시간 표현 추정 금지"
+    },
+    {
+      "id": "C18",
+      "category": "UNKNOWN_ZONE",
+      "text": "3번 도크 근처에서 2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 용접 작업.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": null,
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "허용 구역 목록에 없는 위치 → zone_id는 null이고 원문은 근거로 남긴다"
+    },
+    {
+      "id": "C19",
+      "category": "UNKNOWN_ZONE",
+      "text": "C블록 상부에서 도장 작업 진행, 2026-03-17T09:00:00+09:00 ~ 2026-03-17T12:00:00+09:00.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": null,
+        "start_at": "2026-03-17T09:00:00+09:00",
+        "end_at": "2026-03-17T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "존재하지 않는 구역명"
+    },
+    {
+      "id": "C20",
+      "category": "INVALID_TIME_RANGE",
+      "text": "A_BLOCK_1에서 2026-03-16T14:00:00+09:00부터 2026-03-16T11:00:00+09:00까지 용접 작업.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_1",
+        "start_at": "2026-03-16T14:00:00+09:00",
+        "end_at": "2026-03-16T11:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "종료가 시작보다 이른 문장. 값은 원문대로 추출하고, 저장 단계의 INVALID_TIME_RANGE 검증이 차단한다"
+    },
+    {
+      "id": "C21",
+      "category": "SAFETY_TRUE",
+      "text": "TANK_A 밀폐공간 작업 2026-03-18T08:00:00+09:00~2026-03-18T12:00:00+09:00, 가스측정 완료, 환기 실시, 감시인 배치 완료.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "TANK_A",
+        "start_at": "2026-03-18T08:00:00+09:00",
+        "end_at": "2026-03-18T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": true,
+        "ventilation_confirmed": true,
+        "watcher_assigned": true
+      },
+      "ambiguity_expected": false,
+      "note": "명시된 안전조치는 true로 추출한다(모의 어댑터는 미지원, 실제 공급자 평가 대상)"
+    },
+    {
+      "id": "C22",
+      "category": "SAFETY_TRUE",
+      "text": "DOCK_1 밀폐공간 내부 작업, 2026-03-18T09:00:00+09:00부터 2026-03-18T12:00:00+09:00까지, 감시인 1명 배치함.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "DOCK_1",
+        "start_at": "2026-03-18T09:00:00+09:00",
+        "end_at": "2026-03-18T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": true
+      },
+      "ambiguity_expected": false,
+      "note": "일부 안전조치만 명시"
+    },
+    {
+      "id": "C23",
+      "category": "SAFETY_FALSE",
+      "text": "OUTFIT_1 밀폐공간 정비 2026-03-18T09:00:00+09:00~2026-03-18T13:00:00+09:00, 환기 미실시 상태로 진행 예정.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "OUTFIT_1",
+        "start_at": "2026-03-18T09:00:00+09:00",
+        "end_at": "2026-03-18T13:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": false,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "미실시 명시는 false로 추출한다"
+    },
+    {
+      "id": "C24",
+      "category": "SAFETY_FALSE",
+      "text": "ASSEMBLY_1 밀폐부 검사, 2026-03-18T10:00:00+09:00~2026-03-18T14:00:00+09:00, 감시인 배치하지 않음.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "ASSEMBLY_1",
+        "start_at": "2026-03-18T10:00:00+09:00",
+        "end_at": "2026-03-18T14:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": false
+      },
+      "ambiguity_expected": false,
+      "note": "부정 표현"
+    },
+    {
+      "id": "C25",
+      "category": "SAFETY_UNMENTIONED",
+      "text": "TANK_B 밀폐공간 내부 점검, 2026-03-18T08:00:00+09:00부터 2026-03-18T12:00:00+09:00까지.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "TANK_B",
+        "start_at": "2026-03-18T08:00:00+09:00",
+        "end_at": "2026-03-18T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "안전조치 언급 없음 → 모두 null(임의로 true를 채우면 안 된다)"
+    },
+    {
+      "id": "C26",
+      "category": "SAFETY_UNMENTIONED",
+      "text": "ASSEMBLY_2 밀폐블록 내부 작업 2026-03-18T08:00:00+09:00~2026-03-18T16:00:00+09:00.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "ASSEMBLY_2",
+        "start_at": "2026-03-18T08:00:00+09:00",
+        "end_at": "2026-03-18T16:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "안전조치 언급 없음"
+    },
+    {
+      "id": "C27",
+      "category": "FLAMMABLE_TRUE",
+      "text": "OUTFIT_1에 2026-03-17T14:00:00+09:00부터 2026-03-17T15:00:00+09:00까지 가연성 도료 드럼을 반입한다.",
+      "expected": {
+        "work_type": null,
+        "zone_id": "OUTFIT_1",
+        "start_at": "2026-03-17T14:00:00+09:00",
+        "end_at": "2026-03-17T15:00:00+09:00",
+        "uses_flammable_material": true,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "작업 종류는 명시되지 않았고 가연성 물질 사용만 명시됨"
+    },
+    {
+      "id": "C28",
+      "category": "FLAMMABLE_FALSE",
+      "text": "WELD_SHOP_1 공구 점검 작업, 2026-03-17T10:00:00+09:00~2026-03-17T12:00:00+09:00, 가연성 물질 사용 없음.",
+      "expected": {
+        "work_type": null,
+        "zone_id": "WELD_SHOP_1",
+        "start_at": "2026-03-17T10:00:00+09:00",
+        "end_at": "2026-03-17T12:00:00+09:00",
+        "uses_flammable_material": false,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "가연물 미사용 명시"
+    },
+    {
+      "id": "C29",
+      "category": "MIXED_WORK",
+      "text": "A_BLOCK_1에서 2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 용접과 도장을 함께 진행한다.",
+      "expected": {
+        "work_type": null,
+        "zone_id": "A_BLOCK_1",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "한 문장에 두 작업이 섞여 있어 단일 work_type을 확정할 수 없다 → null + ambiguities 기록"
+    },
+    {
+      "id": "C30",
+      "category": "MIXED_WORK",
+      "text": "DOCK_2에서 2026-03-17T09:00:00+09:00~2026-03-17T13:00:00+09:00 도장 후 이어서 시너 세척 예정.",
+      "expected": {
+        "work_type": null,
+        "zone_id": "DOCK_2",
+        "start_at": "2026-03-17T09:00:00+09:00",
+        "end_at": "2026-03-17T13:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "도장과 유기용제가 함께 언급됨"
+    },
+    {
+      "id": "C31",
+      "category": "NO_TIMEZONE",
+      "text": "A_BLOCK_1에서 2026-03-16 09:00부터 2026-03-16 12:00까지 용접 작업.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_1",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "표준시간대가 없는 시각은 사용할 수 없다 → null"
+    },
+    {
+      "id": "C32",
+      "category": "UTC_TIME",
+      "text": "TANK_A 밀폐공간 작업, 2026-03-18T00:00:00Z부터 2026-03-18T03:00:00Z까지.",
+      "expected": {
+        "work_type": "CONFINED_SPACE",
+        "zone_id": "TANK_A",
+        "start_at": "2026-03-18T00:00:00+00:00",
+        "end_at": "2026-03-18T03:00:00+00:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "UTC 표기도 표준시간대가 있으므로 사용 가능"
+    },
+    {
+      "id": "C33",
+      "category": "EXTRA_TIMESTAMPS",
+      "text": "OUTFIT_2 용접 작업. 작업창: 2026-03-16T09:00:00+09:00 ~ 2026-03-16T12:00:00+09:00. 검사 예정: 2026-03-16T15:00:00+09:00.",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "OUTFIT_2",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "시각이 3개 이상이면 작업 구간만 사용하고 모호성을 기록"
+    },
+    {
+      "id": "C34",
+      "category": "NO_WORK_TYPE",
+      "text": "DOCK_1에 2026-03-16T09:00:00+09:00부터 2026-03-16T12:00:00+09:00까지 자재를 반입한다.",
+      "expected": {
+        "work_type": null,
+        "zone_id": "DOCK_1",
+        "start_at": "2026-03-16T09:00:00+09:00",
+        "end_at": "2026-03-16T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": false,
+      "note": "정의된 작업 종류에 해당하지 않음 → work_type null 또는 OTHER 확인 필요"
+    },
+    {
+      "id": "C35",
+      "category": "RISK_QUESTION",
+      "text": "A_BLOCK_1에서 용접하는데 이거 위험한가요? 작업해도 되나요?",
+      "expected": {
+        "work_type": "HOT_WORK",
+        "zone_id": "A_BLOCK_1",
+        "start_at": null,
+        "end_at": null,
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "위험 판정 요청에 응답하지 않고 명시된 사실만 추출한다"
+    },
+    {
+      "id": "C36",
+      "category": "OTHER_WORK_MENTION",
+      "text": "PAINT_SHOP 도장 작업 2026-03-17T09:00:00+09:00~2026-03-17T12:00:00+09:00. 인접 ASSEMBLY_2의 용접 작업은 별도 허가로 관리한다.",
+      "expected": {
+        "work_type": "PAINTING",
+        "zone_id": "PAINT_SHOP",
+        "start_at": "2026-03-17T09:00:00+09:00",
+        "end_at": "2026-03-17T12:00:00+09:00",
+        "uses_flammable_material": null,
+        "gas_measurement_completed": null,
+        "ventilation_confirmed": null,
+        "watcher_assigned": null
+      },
+      "ambiguity_expected": true,
+      "note": "다른 작업 언급에 끌려가지 않아야 한다"
+    }
+  ]
+}
